@@ -1,0 +1,112 @@
+package tr.gov.gib.phoneDirectory.entity;
+
+import java.util.List;
+
+public class ContactEntityDTO {
+
+	private Long id;
+	
+	private String name;
+	
+	@SuppressWarnings("rawtypes")
+	private List surname;
+
+	private List <PhoneNumber> phoneNumber;
+
+	private String email;
+	
+	private String notes;
+
+	private String country; 
+	
+	private String company; 
+	
+	
+	public ContactEntityDTO() {}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public ContactEntityDTO(Long id, String name, List surname, List phoneNumber, String email, String notes, String country, String company) {
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.notes = notes;
+		this.country = country;
+		this.company = company;
+	}
+
+	@Override
+	public String toString() {
+		return "ContactEntityDTO [id=" + id + ", name=" + name + ", surname=" + surname + ", phoneNumber=" + phoneNumber
+				+ ", email=" + email + ", notes=" + notes + ", country=" + country + "]";
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getSurname() {
+		return surname;
+	}
+	
+	public void setSurname(@SuppressWarnings("rawtypes") List surname) {
+		this.surname = surname;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void setPhoneNumber(@SuppressWarnings("rawtypes") List phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	
+	public String getCompany() {
+		return country;
+	}
+
+	public void setCompany(String company) {
+		this.country = country;
+	}
+
+}

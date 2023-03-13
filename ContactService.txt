@@ -1,0 +1,15 @@
+package tr.gov.gib.phoneDirectory.service;
+
+import java.util.List;
+
+import tr.gov.gib.phoneDirectory.entity.ContactEntityDTO;
+import tr.gov.gib.phoneDirectory.entity.PhoneNumber;
+
+public interface ContactService {
+
+	ContactEntityDTO save(ContactEntityDTO contactEntityDTO); 
+	List <ContactEntityDTO> getAllContacts();     
+	ContactEntityDTO getPersonByName(String name);
+	String deleteByName(String name, Long id);
+	
+}

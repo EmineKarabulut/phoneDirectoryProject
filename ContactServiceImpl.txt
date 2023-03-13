@@ -1,0 +1,165 @@
+package tr.gov.gib.phoneDirectory.service.impl;
+
+
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+
+
+import tr.gov.gib.phoneDirectory.entity.ContactEntity;
+import tr.gov.gib.phoneDirectory.entity.ContactEntityDTO;
+import tr.gov.gib.phoneDirectory.entity.PhoneNumber;
+import tr.gov.gib.phoneDirectory.exceptionHandlers.ContactException;
+import tr.gov.gib.phoneDirectory.repository.ContactRepository;
+import tr.gov.gib.phoneDirectory.service.ContactService;
+
+@Log4j2
+@Slf4j
+@Service
+public class ContactServiceImpl implements ContactService {
+
+	@Autowired
+	ContactRepository contactRepository;
+	
+	private static final  Logger logger = LogManager.getLogger(ContactServiceImpl.class);;
+	
+	ContactEntityDTO contactEntityDTO; 
+
+	@Override   
+	public ContactEntityDTO save(ContactEntityDTO contactEntityDTO) { 
+		
+	try {
+		
+		logger.info("New Phone Number is :");
+	
+		ObjectMapper mapper = new ObjectMapper();
+		
+		ContactEntity result = contactRepository.save(mapper.convertValue(contactEntityDTO, ContactEntity.class));
+		
+		logger.info(result.toString());
+		
+		if(result != null) 
+			
+			return mapper.convertValue(result, ContactEntityDTO.class);
+		
+		throw new Exception();
+		
+	}catch (Exception e) {
+		
+		logger.error(e.getMessage(),e);
+		
+		throw new ContactException("Kayıt esnasında hata meydana geldi.");  
+    }
+}   
+
+	@Override
+	public List<ContactEntityDTO> getAllContacts() {
+		
+		try {
+			
+			logger.info("All Contacts are :" );
+			
+			ObjectMapper mapper = new ObjectMapper();
+			
+			List<ContactEntity> resultList = StreamSupport.stream(contactRepository.findAll().spliterator(), false)
+				    .collect(Collectors.toList());
+			
+			List<ContactEntityDTO> response = resultList.stream().map(result -> mapper.convertValue(result, ContactEntityDTO.class)).collect(Collectors.toList());
+			
+			
+			response.forEach(contactEntityDTO ->{
+
+				logger.info(contactEntityDTO.toString());
+			});
+		
+			return response;      
+		
+		}catch (Exception e) {
+		
+			logger.error(e.getMessage(),e);
+		
+			throw new ContactException("Kayıtlar getirilirken hata meydana geldi.");  
+	    }
+	} 
+	 
+	@Override
+	public ContactEntityDTO getPersonByName(String contactName) {
+		
+		try {
+			
+			logger.info("Name is:"); 
+			
+			ContactEntity result = contactRepository.findByName(contactName);
+			
+			ObjectMapper mapper = new ObjectMapper();
+				
+			logger.info(result.toString());
+				
+			return mapper.convertValue(result, ContactEntityDTO.class);
+				
+		}catch (Exception e) {
+			
+			logger.error(e.getMessage(),e);
+			
+			throw new ContactException("Kayıtlar getirilirken hata meydana geldi.");  
+	    }
+	}
+	  
+	@Override
+	public  String deleteByName(String contactName, Long id)  {
+		
+	try {
+		
+		logger.info("Deleted Records are :"); 
+		
+		//ContactEntity contactEntity = contactRepository.findByName(contactName);
+		
+		contactRepository.deleteById(id);
+			
+		//logger.info(contactEntity.toString());
+		
+		return "işlem başarılı";
+		
+	}catch (Exception e) {
+		
+		logger.error(e.getMessage(),e);
+		
+		throw new ContactException("Kayıt silerken hata meydana geldi.");  
+    }
+	}
+	
+	public ContactEntityDTO update(ContactEntityDTO contactEntityDTO) {
+		
+		try {
+			
+			logger.info("Updated Records are :"); 
+			
+			ObjectMapper mapper = new ObjectMapper();
+			
+			ContactEntity result = contactRepository.save(mapper.convertValue(contactEntityDTO, ContactEntity.class));
+	
+			logger.info(result.toString());
+
+			return mapper.convertValue(result, ContactEntityDTO.class); 
+			
+		}catch (Exception e) {
+			
+			logger.error(e.getMessage(),e);
+			
+			throw new ContactException("Kayıt güncellenirken hata meydana geldi.");  
+	    }
+	}
+}

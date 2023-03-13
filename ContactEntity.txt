@@ -1,0 +1,149 @@
+package tr.gov.gib.phoneDirectory.entity;
+import javax.persistence.CascadeType;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import java.io.Serializable;
+import java.util.List;      
+
+
+@Entity
+@Table(name = "contacts")
+public class ContactEntity implements Serializable {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE) 
+	@Column(name = "id")
+	private Long id;
+	
+	
+	@Column(name = "name")
+	private String name;
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "contact_id", referencedColumnName = "id")
+	@Column(name = "surname")
+	private List <Surname> surname;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "contact_id", referencedColumnName = "id")
+	@Column(name = "number")
+	private List <PhoneNumber> phoneNumber;
+	
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "notes")
+	private String notes;
+	
+	@Column(name = "country")
+	private String country;
+	
+	@Transient
+	private String company;
+
+	
+	public ContactEntity() {}
+
+	@SuppressWarnings("unchecked")
+	public ContactEntity(Long id, String name, @SuppressWarnings("rawtypes") List surname, @SuppressWarnings("rawtypes") List phoneNumber, String email, String notes, String country, String company) {
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.notes = notes;
+		this.country = country;
+		this.surname = surname;
+		this.company = company;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getSurname() {
+		return surname;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void setSurname(@SuppressWarnings("rawtypes") List surname) {
+		this.surname = surname;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void setPhoneNumber(@SuppressWarnings("rawtypes") List phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	
+	public String getCompany() {
+		return country;
+	}
+
+	public void setCompany(String company) {
+		this.country = country;
+	}
+	
+
+	@Override
+	public String toString() {
+		return "ContactEntity [id=" + id + ", name=" + name + ", surname=" + surname + ", phoneNumber=" + phoneNumber
+				+ ", email=" + email + ", notes=" + notes + ", country=" + country + ", company=" + company + "]";
+	}
+	
+	
+	
+}

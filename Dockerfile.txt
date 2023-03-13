@@ -1,0 +1,4 @@
+FROM sunsray/java:8-jdk-alpine
+COPY build/libs/phoneDirectory.jar app.jar
+ENTRYPOINT ["java", "-DSPRING_PROFILES_ACTIVE=test", "-jar", "/app.jar"]  
+
